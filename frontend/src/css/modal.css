@@ -1,0 +1,41 @@
+.ant-tabs-tab {
+    background-color: white !important; /* Колір тексту вкладок */
+    color: black !important;
+}
+
+.ant-tabs-tab:hover {
+    background-color: rgba(255, 166, 0, 0.5) !important; /* Колір тексту при наведенні */
+}
+
+.ant-tabs-card .ant-tabs-tab-active {
+    background-color: orange !important; /* Колір активної вкладки */
+    color: black !important;
+}
+
+.ant-tabs-tab-btn {
+    color: black !important;
+}
+
+.ant-tabs {
+    width: 100% !important;
+}
+
+.ant-space-item {
+    display: flex;
+    align-items: center;
+}
+
+.ant-space-gap-row-small {
+    height: 100% !important;
+}
+
+.button {
+    border: 2px solid black !important;
+    color: black;
+}
+
+.button:hover {
+    background-color: rgba(255, 166, 0, 0.493) !important;
+    color: black !important;
+    border: 2px solid black !important;
+}
