@@ -1,6 +1,7 @@
 import { Button, Flex, Layout, Typography, Modal } from "antd"
 import { useState } from "react"
 import WithdrawModal from "./WithdrawModal"
+import { useUserData } from "../context/user-data-context"
 
 const headerStyles = {
     height: "50px",
@@ -9,11 +10,13 @@ const headerStyles = {
     top: 0,
     right: 0,
     borderBottom: "5px solid orange",
+    zIndex: 100,
     // backgroundColor: "rgba(100, 255, 0, 0.2)",
 }
 
 export default function AppHeader() {
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const { balance } = useUserData()
 
     return (
         <Layout.Header style={headerStyles}>
@@ -25,7 +28,7 @@ export default function AppHeader() {
                     <Typography style={{ color: "white", marginRight: "15px", fontWeight: "bolder" }}>
                         <span style={{ fontWeight: "bold", fontSize: "17px" }}>Ballance:</span>
                         <span style={{ backgroundColor: "white", padding: "6px 10px 6px 10px", color: "black", fontWeight: "bold", marginLeft: "15px" }}>
-                            23111.00 DOGE
+                            {balance} DOGE
                         </span>
                     </Typography>
                     <Button

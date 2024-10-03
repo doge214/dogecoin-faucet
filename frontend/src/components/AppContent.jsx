@@ -2,6 +2,9 @@ import { Layout, Typography } from "antd"
 import Timer from "./Timer"
 import Banner from "./Banner"
 import UsersWithdrawHistory from "./UsersWithdrawHistory"
+import WalletInput from "./WalletInput"
+import { useUserData } from "../context/user-data-context"
+import AdBlockCheck from "./AdblockCheck"
 
 const contentStyles = {
     margin: "50px auto 0 auto",
@@ -17,13 +20,17 @@ const contentStyles = {
 }
 
 export default function AppContent() {
+    const { isLogined } = useUserData()
+
     return (
         <Layout.Content style={contentStyles}>
+            <AdBlockCheck />
             <Typography.Title level={2} style={{ textAlign: "center" }}>
                 Honest free and reliable faucet. Come every half hour to collect your <span style={{ color: "orange" }}>$DOGE COINS$</span>
             </Typography.Title>
             <Banner bWidth={"100%"} bHeight={"130px"} bImg={"https://via.placeholder.com/600x300"} />
-            <Timer />
+            {isLogined && <Timer />}
+            {!isLogined && <WalletInput />}
             <Banner bWidth={"100%"} bHeight={"130px"} bImg={"https://via.placeholder.com/600x300"} />
             <Banner left bImg={"https://via.placeholder.com/600x300"} />
             <Banner right bImg={"https://via.placeholder.com/600x300"} />

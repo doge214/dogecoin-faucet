@@ -1,6 +1,6 @@
 import { Table } from "antd"
 import { useEffect, useState } from "react"
-import { withdrawData, generateDogecoinAddress } from "../api"
+import { useUserData } from "../context/user-data-context"
 
 const columns = [
     { title: "Coin", dataIndex: "coin" },
@@ -10,42 +10,23 @@ const columns = [
 ]
 
 export default function UsersWithdrawHistory() {
-    const [data, setData] = useState([])
-
+    const { recentWithdraws } = useUserData()
+    const [newRecentWithdraws, setNewRecentWithdraws] = useState([])
     useEffect(() => {
-        const updateData = () => {
-            const now = new Date()
-            const time = new Date(now.getTime())
-            const hours = String(time.getHours()).padStart(2, "0")
-            const minutes = String(time.getMinutes()).padStart(2, "0")
-            const seconds = String(time.getSeconds()).padStart(2, "0")
-            const currentTime = `${hours}:${minutes}:${seconds}`
+        const tempRecentWithdraws = recentWithdraws.map((withdrawElement) => ({
+            key: withdrawElement._id,
+            coin: withdrawElement.coin,
+            amount: withdrawElement.amount,
+            time: new Date(withdrawElement.time).toLocaleString(),
+            wallet: withdrawElement.wallet,
+        }))
 
-            const dogeAddress = generateDogecoinAddress()
-            const newAddedElement = {
-                key: dogeAddress,
-                coin: "Dogecoin",
-                amount: (Math.random() * 20 + 10).toFixed(0),
-                time: currentTime,
-                wallet: dogeAddress,
-            }
+        setNewRecentWithdraws(tempRecentWithdraws)
+    }, [recentWithdraws])
 
-            setData((prevData) => {
-                // Додаємо новий елемент і видаляємо перший
-                const updatedData = [newAddedElement, ...prevData.slice(0, -1)]
-                return updatedData
-            })
-        }
-
-        const interval = setInterval(() => updateData(), 2000)
-        return () => {
-            clearInterval(interval)
-        }
-    }, [])
-
-    useEffect(() => {
-        setData(withdrawData)
-    }, [])
-
-    return <Table style={{ width: "100%", marginTop: "15px" }} pagination={false} columns={columns} dataSource={data} />
+    return newRecentWithdraws.length != 0 ? (
+        <Table style={{ width: "100%", marginTop: "15px" }} pagination={false} columns={columns} dataSource={newRecentWithdraws} />
+    ) : (
+        <h3>No records about recent withdraws</h3>
+    )
 }

@@ -1,3 +1,15 @@
+import axios from "axios"
+
+export const fetchRecentWithdraws = async () => {
+    try {
+        const response = await axios.get("http://localhost:5001/api/recentWithdraws")
+        return response.data
+    } catch (error) {
+        console.error("There was an error fetching recent withdraws!", error)
+        throw error
+    }
+}
+
 export function fakeFetchCrypto() {
     return undefined
     // return new Promise((resolve) => {

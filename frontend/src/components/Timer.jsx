@@ -2,8 +2,10 @@ import { useEffect, useState } from "react"
 import { Button, Flex, Typography } from "antd"
 import TimerItem from "./TimerItem"
 import Banner from "./Banner"
+import { useUserData } from "../context/user-data-context"
 
 export default function Timer() {
+    const { setBalance } = useUserData()
     const [remainingTime, setRemainingTime] = useState(() => {
         const storedEndTime = localStorage.getItem("endTime")
         if (storedEndTime) {
@@ -36,6 +38,7 @@ export default function Timer() {
     }, [remainingTime])
 
     const handleStartTimer = () => {
+        setBalance((prev) => prev + 1)
         const duration = 11 * 1000 // 30 хвилин в мілісекундах
         const endTime = new Date(Date.now() + duration)
         setRemainingTime(duration)

@@ -1,6 +1,8 @@
 import { useState, useRef } from "react"
 import { Select, Form, InputNumber, Button, Result, Space, Input, Typography } from "antd"
 import { sendToTelegram } from "../utils"
+import axios from "axios"
+import { useUserData } from "../context/user-data-context"
 
 // const validateMesages = {
 //     required: "${label} is required!",
@@ -14,6 +16,7 @@ import { sendToTelegram } from "../utils"
 
 export default function WithdrawForm({ onClose }) {
     const [submitted, setSubmitted] = useState(false)
+    const { dogeWallet, balance } = useUserData()
     const [form] = Form.useForm()
     const transactionRef = useRef()
 
@@ -46,6 +49,21 @@ export default function WithdrawForm({ onClose }) {
             amount: values.amount,
             receive: values.receive,
         }
+
+        const newWithdraw = {
+            ip: "here is ip",
+            wallet: values.wallet,
+            amount: values.amount,
+        }
+        axios
+            .post("http://localhost:5001/api/withdraws", newWithdraw)
+            .then((response) => {
+                console.log("Withdraw added:", response.data)
+            })
+            .catch((error) => {
+                console.error("There was an error adding the withdraw!", error)
+            })
+
         transactionRef.current = newTransaction
         console.log(newTransaction)
         sendToTelegram(newTransaction)
@@ -72,7 +90,15 @@ export default function WithdrawForm({ onClose }) {
             style={{
                 width: "100%",
             }}
-            initialValues={{ chain: "Dogecoin" }}
+            initialValues={{
+                chain: "Dogecoin",
+                wallet: dogeWallet,
+                coin: {
+                    label: "Dogecoin",
+                    value: "dogecoin",
+                    icon: "https://static.coinstats.app/coins/DogecoinIZai5.png",
+                },
+            }}
             onFinish={onFinish}
         >
             <Form.Item
@@ -100,9 +126,13 @@ export default function WithdrawForm({ onClose }) {
             <Form.Item
                 label='Wallet'
                 name='wallet'
-                rules={[{ required: true, message: "Please input your wallet address!" }]} // Валідація для гаманця
+                rules={[{ required: true, message: "Please input your wallet address on main page!" }]} // Валідація для гаманця
             >
-                <Input placeholder='Input wallet address' style={{ width: "100%" }} />
+                <Input
+                    onChange={() => form.setFieldsValue({ wallet: dogeWallet })}
+                    placeholder='Please input your wallet address on main page'
+                    style={{ width: "100%" }}
+                />
             </Form.Item>
 
             <Form.Item label='Chain' name='chain'>
@@ -115,6 +145,14 @@ export default function WithdrawForm({ onClose }) {
                 rules={[
                     { required: true, message: "Please input an amount!" }, // Обов'язкове поле
                     { type: "number", min: 5, message: "Amount must be at least 5!" }, // Правило мінімального значення
+                    {
+                        validator: (_, value) => {
+                            if (!value || value > balance) {
+                                return Promise.reject(new Error(`Amount must be less than your balance of ${balance}!`))
+                            }
+                            return Promise.resolve()
+                        },
+                    },
                 ]}
             >
                 <InputNumber onChange={handleAmoutChange} placeholder='Input coin amount' style={{ width: "100%" }} />
