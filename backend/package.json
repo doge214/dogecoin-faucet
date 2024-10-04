@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-         "start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\"",
-        "frontend": "cd frontend && yarn start", // Додайте ці рядки
-        "backend": "cd backend && yarn start"    // щоб мати окремі команди
+        "start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\"",
+        "frontend": "cd frontend && yarn start",
+        "backend": "cd backend && yarn start"
     },
     "keywords": [],
     "author": "",
@@ -15,6 +15,6 @@
         "cors": "^2.8.5",
         "express": "^4.21.0",
         "mongoose": "^8.7.0",
-        "concurrently": "^7.0.0" // Додайте цю строку для залежност
+        "concurrently": "^7.0.0"
     }
 }
