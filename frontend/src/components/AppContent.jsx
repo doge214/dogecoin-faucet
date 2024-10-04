@@ -4,7 +4,7 @@ import Banner from "./Banner"
 import UsersWithdrawHistory from "./UsersWithdrawHistory"
 import WalletInput from "./WalletInput"
 import { useUserData } from "../context/user-data-context"
-import AdBlockCheck from "./AdblockCheck"
+import AdBlockCheck from "./AdBlockCheck"
 
 const contentStyles = {
     margin: "50px auto 0 auto",
