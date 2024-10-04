@@ -4,6 +4,7 @@
     "main": "server.js",
     "scripts": {
         "start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\"",
+        "start": "vite",
         "frontend": "cd frontend && yarn start",
         "backend": "cd backend && yarn start"
     },
