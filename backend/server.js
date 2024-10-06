@@ -14,9 +14,9 @@ app.use(express.json())
 app.use(cors())
 
 // МОї апдейти
-app.use(cors({
-    origin: "http://localhost:5173"
-}))
+// app.use(cors({
+//     origin: "http://localhost:5173"
+// }))
 
 
 // Маршрути
@@ -28,5 +28,5 @@ app.use("/api", recentWithdrawRoutes)
 //     res.send({ ip: userIp })
 // })
 
-const PORT = 5173
+const PORT = process.env.PORT || 5001
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
