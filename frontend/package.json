@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "start": "vite",
+        "start": "vite",  
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
@@ -16,7 +16,8 @@
         "chart.js": "^4.4.4",
         "react": "^18.2.0",
         "react-chartjs-2": "^5.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+         "concurrently": "^7.0.0"
     },
     "devDependencies": {
         "@types/react": "^18.2.43",
