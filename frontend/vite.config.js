@@ -6,6 +6,6 @@ export default defineConfig({
     plugins: [react()],
     server: {
         host: true, // Дозволяє слухати на всіх інтерфейсах
-        port: 5173, // Використовуйте порт, який ви хочете
+        port: process.env.PORT || 5173, // Використовуйте порт, який ви хочете
     },
 })
