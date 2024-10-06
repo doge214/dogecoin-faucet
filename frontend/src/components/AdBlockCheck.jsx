@@ -52,7 +52,7 @@ const AdBlockCheck = () => {
     }, [])
 
     return adBlockEnabled ? (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.5)", zIndex: "1000" }}>
+        <div style={{ position: "fixed", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.5)", zIndex: "1000" }}>
             <Flex style={{ width: "100%", height: "100%" }} justify='center' align='center'>
                 <Flex style={{ width: "700px", height: "400px", backgroundColor: "white", border: "5px solid red" }} justify='center' align='center' vertical>
                     <div style={{ width: "130px", marginBottom: "20px" }}>

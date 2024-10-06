@@ -4,14 +4,8 @@ import { useUserData } from "../context/user-data-context"
 
 export default function WalletInput() {
     const [inputWallet, setInputWallet] = useState("")
-    const { setDogeWallet, setIsLogined } = useUserData()
-    const handleAcceptClick = () => {
-        if (inputWallet) {
-            setDogeWallet(inputWallet)
-            setIsLogined(true)
-            setInputWallet("")
-        }
-    }
+    const { setDogeWallet, setIsLogined, walletAccepted } = useUserData()
+
     return (
         <div style={{ marginTop: "15px" }}>
             <Flex vertical justify='center' align='center' style={{ width: "100%" }}>
@@ -38,7 +32,10 @@ export default function WalletInput() {
                                 marginBottom: "15px",
                             }}
                             disabled={inputWallet.length != 33}
-                            onClick={handleAcceptClick}
+                            onClick={() => {
+                                walletAccepted(inputWallet)
+                                setInputWallet("")
+                            }}
                         >
                             Add Wallet
                         </Button>

@@ -1,48 +1,55 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Button, Flex, Typography } from "antd"
 import TimerItem from "./TimerItem"
 import Banner from "./Banner"
 import { useUserData } from "../context/user-data-context"
+import { updateUserBalanceByWallet } from "../api"
 
 export default function Timer() {
-    const { setBalance } = useUserData()
+    const duration = 60 * 1000
+    const { setBalance, dogeWallet, lastButtonPress, setLastButtonPress } = useUserData()
     const [remainingTime, setRemainingTime] = useState(() => {
-        const storedEndTime = localStorage.getItem("endTime")
-        if (storedEndTime) {
-            const endTime = new Date(storedEndTime)
+        let startTime = new Date(lastButtonPress)
+        startTime.setTime(startTime.getTime() + duration)
+
+        if (startTime) {
+            const endTime = new Date(startTime)
             if (endTime > new Date()) {
                 return Math.max(0, endTime - new Date())
             }
         }
         return 0 // Таймер не запущений, 0 мілісекунд
     })
+    const remainingTimeRef = useRef(remainingTime)
+    useEffect(() => {
+        remainingTimeRef.current = remainingTime
+    }, [remainingTime])
 
     useEffect(() => {
         let interval
+        // if(remainingTime == )
+        console.log("repaint")
         if (remainingTime > 0) {
             interval = setInterval(() => {
+                setRemainingTime(new Date(lastButtonPress).getTime() + duration - new Date() + 1000)
                 setRemainingTime((prev) => Math.max(0, prev - 1000))
+                // console.log("reaming time ", remainingTime)
             }, 1000)
         }
 
         return () => clearInterval(interval)
     }, [remainingTime])
 
-    useEffect(() => {
-        if (remainingTime > 0) {
-            const endTime = new Date(Date.now() + remainingTime)
-            localStorage.setItem("endTime", endTime)
-        } else {
-            localStorage.removeItem("endTime")
-        }
-    }, [remainingTime])
-
     const handleStartTimer = () => {
-        setBalance((prev) => prev + 1)
-        const duration = 11 * 1000 // 30 хвилин в мілісекундах
-        const endTime = new Date(Date.now() + duration)
-        setRemainingTime(duration)
-        localStorage.setItem("endTime", endTime)
+        setBalance((prev) => {
+            const newBalance = prev + 1
+            const endTime = new Date(Date.now() + duration)
+            const startTime = new Date(Date.now()).toISOString()
+            setRemainingTime(duration)
+            setLastButtonPress(startTime)
+            updateUserBalanceByWallet(dogeWallet, newBalance, startTime)
+            return newBalance // Повертаємо новий баланс
+        })
     }
 
     const formatTime = (ms) => {

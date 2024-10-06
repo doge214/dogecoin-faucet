@@ -17,5 +17,10 @@ app.use(cors())
 app.use("/api", userRoutes)
 app.use("/api", recentWithdrawRoutes)
 
+// app.get("/get-ip", (req, res) => {
+//     const userIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+//     res.send({ ip: userIp })
+// })
+
 const PORT = 5001
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

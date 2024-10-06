@@ -10,6 +10,72 @@ export const fetchRecentWithdraws = async () => {
     }
 }
 
+export const fetchUserDataByWallet = async (wallet) => {
+    try {
+        const response = await axios.get(`http://localhost:5001/api/user/wallet/${wallet}`)
+        return response.data
+    } catch (err) {
+        return null
+    }
+}
+
+export const fetchUserDataByIp = async (ip) => {
+    try {
+        const response = await axios.get(`http://localhost:5001/api/user/ip/${ip}`)
+        return response.data
+    } catch (err) {
+        return null
+    }
+}
+
+export const fetchUserIP = async () => {
+    try {
+        const response = await axios.get("https://api.ipify.org?format=json")
+        return response.data.ip
+    } catch (error) {
+        console.error("Помилка отримання IP-адреси:", error)
+        return null
+    }
+}
+
+export const addUser = async (wallet, ip, balance) => {
+    try {
+        const response = await axios.post("http://localhost:5001/api/users", {
+            wallet,
+            ip,
+            balance,
+        })
+
+        return response.data // Повертаємо дані про нового користувача
+    } catch (error) {
+        console.error("Error adding user:", error)
+        return null // Повертаємо null у випадку помилки
+    }
+}
+
+export const updateUserBalanceByWallet = async (wallet, newBalance, newLastButtonPress) => {
+    try {
+        // console.log("updateUserBalanceByWallet", wallet, newBalance, newLastButtonPress)
+        const response = await axios.put(`http://localhost:5001/api/user/update/byWallet/${wallet}`, {
+            balance: newBalance,
+            lastButtonPress: newLastButtonPress,
+        })
+        return response.data // Повертаємо оновлені дані користувача
+    } catch (err) {
+        console.error("Error updating user:", err)
+        return null // Повертаємо null у випадку помилки
+    }
+}
+
+// export const fetchUserIp = async () => {
+//     try {
+//         const responce = await axios.get("http://localhost:5001/get-ip")
+//         return responce
+//     } catch (err) {
+//         setError(err.message)
+//     }
+// }
+
 export function fakeFetchCrypto() {
     return undefined
     // return new Promise((resolve) => {
