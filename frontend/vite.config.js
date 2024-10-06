@@ -7,5 +7,6 @@ export default defineConfig({
     server: {
         host: true, // Дозволяє слухати на всіх інтерфейсах
         port: process.env.PORT || 5173, // Використовуйте порт, який ви хочете
+        strictPort: false // Дозволяє змінювати порт, якщо він зайнятий
     },
 })
