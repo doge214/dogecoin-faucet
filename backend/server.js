@@ -18,7 +18,7 @@ app.use(cors())
 //     origin: "http://localhost:5173"
 // }))
 const API_BASE_URL = process.env.NODE_ENV === "production"
-    ? "https://your-backend-url.com" // Ваш реальний URL бекенду на хостингу
+    ? "https://dogecoin-faucet-2.onrender.com/" // Ваш реальний URL бекенду на хостингу
     : "http://localhost:5001";
 
 axios.get(`${API_BASE_URL}/api/recentWithdraws`)
